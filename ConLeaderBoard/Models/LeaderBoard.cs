@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -139,36 +140,40 @@ namespace ConLeaderBoard.Models
         }
 
         /// <summary>
-        /// A ranglista adott helyezésének lekérdezése. A helyezés 1-től kezdődik, és azonos pontszám esetén azonos helyezést kapnak a játékosok. Ha a megadott helyezés érvénytelen (például kisebb, mint 1 vagy nagyobb, mint a ranglista mérete, vagy nincs ilyen helyezés), akkor egy üres listát ad vissza. 
+        /// A ranglista adott helyezésének lekérdezése. A helyezés 1-től kezdődik. Az azonos pontszámú játékosok esetén azonos helyezést kapnak. 
+        /// Ha a megadott helyezés nincs vagy érvénytelen, akkor egy üres listát ad vissza. 
         /// </summary>
-        /// <param name="position">1-től kezdett számozás esetén a pozíció</param>
+        /// <param name="findPosition">1-től kezdett számozás esetén a pozíció</param>
         /// <returns>Az eredmények listája, ami üres lista, ha nincs ilyen pozíció</returns>
-        public List<Result> GetResults(int position)
+        public List<Result> GetResults(int findPosition)
         {
-            List<Result> result = new List<Result>();
-            if (position < 1 || position > results.Count)
+            List<Result> tempResults = new List<Result>();
+            if (findPosition < 1 || findPosition > results.Count)
             {
-                return result;
+                return tempResults;
             }
-            int counter = 0;
-            Result previous = null;
-            foreach (Result res in results)
+            int actualPosition = 1;
+            int multiPosition = 0;
+            for (int index = 0; index < results.Count - 1; index++)
             {
-                if (previous != null && res.Point == previous.Point)
+                if (results[index].Point == results[index + 1].Point)
                 {
-                    counter++;
+                    multiPosition++;
                 }
                 else
                 {
-                    counter = 0;
+                    actualPosition += multiPosition + 1;
+                    multiPosition = 0;
                 }
-                if (position - counter == position)
+                if (findPosition == actualPosition)
                 {
-                    result.Add(res);
+                    tempResults.Add(results[index + 1]);
                 }
-                previous = res;
             }
-            return result;
+
+
+
+            return tempResults;
         }
     }
 }

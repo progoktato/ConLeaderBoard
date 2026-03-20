@@ -36,6 +36,10 @@ namespace ConLeaderBoard
                 Console.WriteLine(item);
             }
 
+            foreach (var item in flipper.GetResults(5))
+            {
+                Console.WriteLine(item.GetString());
+            }
         }
 
     }
