@@ -21,10 +21,16 @@ namespace ConLeaderBoard
 
             flipper.AddResult("1", 105);
             flipper.AddResult("2", 105);
-            flipper.AddResult("3", 105);
             flipper.AddResult("4", 105);
             flipper.AddResult("5", 105);
 
+            foreach (var item in flipper.GetBoard())
+            {
+                Console.WriteLine(item);
+            }
+
+            flipper.RemoveResult("Szabó Éva");
+            flipper.RemoveResult("Mákos Álmos");
             foreach (var item in flipper.GetBoard())
             {
                 Console.WriteLine(item);

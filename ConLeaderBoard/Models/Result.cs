@@ -11,6 +11,7 @@ namespace ConLeaderBoard.Models
         string name;
         DateTime date;
         int point;
+        //TimeOnly futasiIdo;
 
         public Result(string name, int point)
         {
